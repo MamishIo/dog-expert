@@ -6,11 +6,17 @@
 
     <groupId>io.mamish</groupId>
     <artifactId>dog-expert</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
+
+    <modules>
+        <module>dog-expert-cdk</module>
+        <module>dog-expert-discord</module>
+    </modules>
 
 </project>
