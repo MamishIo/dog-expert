@@ -23,10 +23,6 @@ public class ServiceStack extends Stack {
     public ServiceStack(@Nullable Construct scope, @Nullable String id) {
         super(scope, id);
 
-        var discordTokenSecret = new Secret(this, "DiscordTokenSecret", SecretProps.builder()
-                .secretName("discord/api-token")
-                .build());
-
         var serviceVpc = new Vpc(this, "DefaultVpc", VpcProps.builder()
                 .cidr("10.10.0.0/16")
                 .maxAzs(3)
@@ -40,11 +36,13 @@ public class ServiceStack extends Stack {
 
         var discordFargateService = new QueueProcessingFargateService(this, "Service", QueueProcessingFargateServiceProps.builder()
                 .vpc(serviceVpc)
+                .assignPublicIp(true)
                 .cpu(CPU_UNITS)
                 .memoryLimitMiB(MEMORY_MB)
                 .image(ContainerImage.fromAsset("dog-expert-docker"))
                 .build());
 
-        discordTokenSecret.grantRead(discordFargateService.getTaskDefinition().getTaskRole());
+        var existingTokenSecret = Secret.fromSecretNameV2(this, "ImportedTokenSecret", "discord/api-token");
+        existingTokenSecret.grantRead(discordFargateService.getTaskDefinition().getTaskRole());
     }
 }
