@@ -4,8 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import software.amazon.awscdk.core.Stage;
 import software.constructs.Construct;
 
-public class PipelineStage extends Stage {
-    public PipelineStage(@NotNull Construct scope, @NotNull String id) {
+public class ServiceStage extends Stage {
+    public ServiceStage(@NotNull Construct scope, @NotNull String id) {
         super(scope, id);
 
         new ServiceStack(this, "DogExpertService");
