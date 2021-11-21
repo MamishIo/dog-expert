@@ -25,7 +25,7 @@ public class PipelineStack extends Stack {
                         .input(CodePipelineSource.connection(GITHUB_REPO_STRING, GITHUB_BRANCH, ConnectionSourceOptions.builder()
                                 .connectionArn(GITHUB_CONNECTION)
                                 .build()))
-                        .primaryOutputDirectory("generated/cdk.out")
+                        .primaryOutputDirectory("cdk.out")
                         .partialBuildSpec(BuildSpec.fromObject(Map.of(
                                 "phases", Map.of(
                                         "install", Map.of(
@@ -41,11 +41,10 @@ public class PipelineStack extends Stack {
                         .commands(List.of(
                                 // Compile Java source
                                 "mvn clean install -Dmaven.test.skip=true",
-                                "mkdir -p generated",
                                 // Copy service jar (can't be referenced directly from Dockerfile, sadly)
                                 "cp dog-expert-discord/target/dog-expert-discord-1.0-SNAPSHOT.jar dog-expert-docker/java/service.jar",
                                 // Perform CDK synth
-                                "(cd dog-expert-cdk && cdk synth -o ../generated/cdk.out)"
+                                "cdk synth -o cdk.out"
                         ))
                         .build()))
                 .build());
