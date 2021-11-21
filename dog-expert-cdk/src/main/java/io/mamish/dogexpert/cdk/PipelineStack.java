@@ -31,14 +31,13 @@ public class PipelineStack extends Stack {
                                         "install", Map.of(
                                                 "runtime-versions", Map.of(
                                                         "python", "3.7",
-                                                        "java", "corretto11"
-                                                ),
+                                                        "java", "corretto11"),
                                                 "commands", List.of(
-                                                        "npm install -g aws-cdk"
-                                                )
-                                        )
-                                )
-                        )))
+                                                        "npm install -g aws-cdk"))),
+                                "cache", Map.of(
+                                        "paths", List.of(
+                                                "/root/.m2/**/*",
+                                                "/usr/local/lib/node_modules/aws-cdk/**/*")))))
                         .commands(List.of(
                                 // Compile Java modules
                                 "mvn clean install -Dmaven.test.skip=true",
