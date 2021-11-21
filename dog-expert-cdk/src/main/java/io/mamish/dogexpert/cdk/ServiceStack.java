@@ -24,7 +24,7 @@ public class ServiceStack extends Stack {
         var discordFargateService = new QueueProcessingFargateService(this, "Service", QueueProcessingFargateServiceProps.builder()
                 .cpu(CPU_UNITS)
                 .memoryLimitMiB(MEMORY_MB)
-                .image(ContainerImage.fromAsset("../dog-expert-docker"))
+                .image(ContainerImage.fromAsset("dog-expert-docker"))
                 .build());
 
         discordTokenSecret.grantRead(discordFargateService.getTaskDefinition().getTaskRole());

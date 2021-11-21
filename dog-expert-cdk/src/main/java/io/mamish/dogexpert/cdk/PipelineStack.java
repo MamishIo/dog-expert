@@ -39,16 +39,12 @@ public class PipelineStack extends Stack {
                                                 "/root/.m2/**/*",
                                                 "/usr/local/lib/node_modules/aws-cdk/**/*")))))
                         .commands(List.of(
-                                // Compile Java modules
+                                // Compile Java source
                                 "mvn clean install -Dmaven.test.skip=true",
-                                // Install Python dependencies
-                                "(cd dog-expert-python && pip3 install -t . -r requirements.txt)",
-                                // Prepare docker container
-                                "cp dog-expert-discord/target/dog-expert-discord-1.0-SNAPSHOT.jar dog-expert-docker/service.jar",
-                                "mkdir -p dog-expert-docker/python",
-                                "cp -r dog-expert-python dog-expert-docker/python",
-                                // Synthesize application/service CDK stacks for application deployment
-                                "mkdir -p generated/cdk.out",
+                                "mkdir -p generated",
+                                // Copy service jar (can't be referenced directly from Dockerfile, sadly)
+                                "cp dog-expert-discord/target/dog-expert-discord-1.0-SNAPSHOT.jar dog-expert-docker/java/service.jar",
+                                // Perform CDK synth
                                 "(cd dog-expert-cdk && cdk synth -o ../generated/cdk.out)"
                         ))
                         .build()))
