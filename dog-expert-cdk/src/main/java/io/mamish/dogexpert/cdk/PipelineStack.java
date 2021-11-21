@@ -49,7 +49,7 @@ public class PipelineStack extends Stack {
                                 "cp -r dog-expert-python dog-expert-docker/python",
                                 // Synthesize application/service CDK stacks for application deployment
                                 "mkdir -p generated/cdk.out",
-                                "(cd dog-expert-cdk && cdk synth -o ../generated/cloud-assembly)"
+                                "(cd dog-expert-cdk && cdk synth -o ../generated/cdk.out)"
                         ))
                         .build()))
                 .build());
