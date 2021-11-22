@@ -12,11 +12,22 @@ class RequestHandler(BaseHTTPRequestHandler):
     classifier = Classifier()
 
     def do_POST(self):
-        request_json = json.load(self.rfile)
-        image_raw_data = request_json['ImageData']
-        image_data = base64.b64decode(image_raw_data)
-        classifier_response = classifier.classify(image_data)
-        self.wfile.write(classifier_response.encode('utf-8'))
+        try:
+            content_len = int(self.headers.get('content-length', 0))
+            request_json = json.loads(self.rfile.read(content_len))
+            image_raw_data = request_json['image_data']
+            image_data = base64.b64decode(image_raw_data)
+            classifier_response = self.classifier.classify(image_data)
+            response = (200, {'data': classifier_response})
+        except Exception as e:
+            response = (500, {'error': repr(e)})
+        # Send data or error response
+        self.send_response(response[0])
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        response_json = json.dumps(response[1])
+        self.wfile.write(response_json.encode('utf-8'))
+
 
 if __name__ == "__main__":
     main()

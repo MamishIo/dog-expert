@@ -41,8 +41,9 @@ public class PipelineStack extends Stack {
                         .commands(List.of(
                                 // Compile Java source
                                 "mvn clean install -Dmaven.test.skip=true",
-                                // Copy service jar (can't be referenced directly from Dockerfile, sadly)
+                                // Copy jar/scripts into docker dir (can't be referenced directly from Dockerfile, sadly)
                                 "cp dog-expert-discord/target/dog-expert-discord-1.0-SNAPSHOT.jar dog-expert-docker/java/service.jar",
+                                "cp -r dog-expert-python/* dog-expert-docker/python",
                                 // Perform CDK synth
                                 "cdk synth -o cdk.out"
                         ))

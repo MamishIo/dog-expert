@@ -3,9 +3,9 @@ FROM public.ecr.aws/amazoncorretto/amazoncorretto:11
 WORKDIR /opt/dogexpert
 
 # Install Python component
-COPY python/requirements.txt python/requirements.txt
+COPY python python/
 RUN yum install -y python3-3.7.0 \
-    && pip3 install -t python -r python/requirements.txt
+    && pip3 install -r python/requirements.txt
 
 # Install Java service JAR
 COPY java/service.jar java/service.jar
