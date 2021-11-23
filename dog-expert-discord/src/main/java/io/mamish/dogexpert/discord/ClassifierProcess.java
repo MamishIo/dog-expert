@@ -9,7 +9,7 @@ public class ClassifierProcess {
 
     private static final String PYTHON_SYSTEM_PATH = "/usr/bin/python3";
     private static final String PYTHON_LOCAL_SUBDIR = "python";
-    private static final String PYTHON_LOCAL_MAIN_FILE = "python/server.py";
+    private static final String PYTHON_LOCAL_MAIN_FILE = "server.py";
 
     public ClassifierProcess() {
         try {
