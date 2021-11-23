@@ -45,7 +45,6 @@ public class Discord implements MessageCreateListener {
             return;
         }
 
-        List<MessageAttachment> attachments = messageCreateEvent.getMessageAttachments();
         Message sourceMessage = messageCreateEvent.getMessage();
         messageCreateEvent.getMessageAttachments().forEach(attachment -> handleMessageAttachment(sourceMessage, attachment));
     }
