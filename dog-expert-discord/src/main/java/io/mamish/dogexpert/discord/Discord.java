@@ -1,8 +1,6 @@
 package io.mamish.dogexpert.discord;
 
-import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
-import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.message.MessageAttachment;
@@ -10,9 +8,6 @@ import org.javacord.api.event.message.MessageCreateEvent;
 import org.javacord.api.listener.message.MessageCreateListener;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 
-import java.awt.image.BufferedImage;
-import java.util.Base64;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Discord implements MessageCreateListener {
@@ -53,6 +48,7 @@ public class Discord implements MessageCreateListener {
         if (attachment.isImage()) {
             byte[] imageBytes = attachment.downloadAsByteArray().join();
             String response = classifierClient.classify(imageBytes);
+            System.out.println("Classifier endpoint response: " + response);
             sourceMessage.reply("Test! Classifier response: " + response);
         }
     }

@@ -18,14 +18,17 @@ class RequestHandler(BaseHTTPRequestHandler):
             image_raw_data = request_json['image_data']
             image_data = base64.b64decode(image_raw_data)
             classifier_response = self.classifier.classify(image_data)
+            print('Got classifier response: ' + str(classifier_response))
             response = (200, {'data': classifier_response})
         except Exception as e:
+            print('Got exception: ' + repr(e))
             response = (500, {'error': repr(e)})
         # Send data or error response
         self.send_response(response[0])
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
-        response_json = json.dumps(response[1])
+        response_json = json.dumps(response[1], default=str)
+        print('Final response JSON payload: ' + response_json)
         self.wfile.write(response_json.encode('utf-8'))
 
 
