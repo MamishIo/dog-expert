@@ -1,6 +1,7 @@
 package io.mamish.dogexpert.discord;
 
 import io.mamish.dogexpert.discord.model.ClassifierResponse;
+import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.Message;
@@ -18,9 +19,10 @@ public class Discord implements MessageCreateListener {
     private static final String DISCORD_CHANNEL_ID_DEV = "910852320076648498";
     private static final String DISCORD_CHANNEL_ID_PROD = "710475630902247486";
 
+    private final DiscordApi discordApi;
     private final ClassifierProcess classifierProcess = new ClassifierProcess();
     private final ClassifierClient classifierClient = new ClassifierClient();
-    private final UserSummaryGenerator userSummaryGenerator = new UserSummaryGenerator();
+    private final UserResponder userResponder;
     private final String watchChannelId;
 
     public static void main(String[] args) {
@@ -31,18 +33,20 @@ public class Discord implements MessageCreateListener {
         this.watchChannelId = (isRunningOnECS()) ? DISCORD_CHANNEL_ID_PROD : DISCORD_CHANNEL_ID_DEV;
         var secretsManagerClient = SecretsManagerClient.create();
         String apiToken = secretsManagerClient.getSecretValue(r -> r.secretId(API_TOKEN_SECRET_ID)).secretString();
-        new DiscordApiBuilder()
+        this.discordApi = new DiscordApiBuilder()
                 .setToken(apiToken)
                 .addMessageCreateListener(this)
                 .login()
                 .orTimeout(60, TimeUnit.SECONDS)
                 .join();
+        ReactionEmojis emojis = new ReactionEmojis(this.discordApi);
+        userResponder = new UserResponder(emojis);
     }
 
     @Override
     public void onMessageCreate(MessageCreateEvent messageCreateEvent) {
         TextChannel channel = messageCreateEvent.getChannel();
-        if (!channel.getIdAsString().equals(DISCORD_CHANNEL_ID_PROD)) {
+        if (!channel.getIdAsString().equals(watchChannelId)) {
             return;
         }
 
@@ -55,9 +59,11 @@ public class Discord implements MessageCreateListener {
             byte[] imageBytes = attachment.downloadAsByteArray().join();
             ClassifierResponse response = classifierClient.classify(imageBytes);
             System.out.println("Border collie prediction=" + response.getBorderColliePrediction());
-            String userReply = userSummaryGenerator.summarise(response);
-            System.out.println("User reply=<" + userReply + ">");
-            sourceMessage.reply(userReply);
+            UserResponse userResponse = userResponder.createResponse(response);
+            System.out.println("User react tag=<" + userResponse.getReactTag() + ">");
+            System.out.println("User reply=<" + userResponse.getMessage() + ">");
+            sourceMessage.reply(userResponse.getMessage());
+            sourceMessage.addReaction(userResponse.getReactTag());
         }
     }
 
