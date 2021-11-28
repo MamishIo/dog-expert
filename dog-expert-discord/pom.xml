@@ -82,6 +82,13 @@
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>secretsmanager</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.squareup.moshi/moshi -->
+        <dependency>
+            <groupId>com.squareup.moshi</groupId>
+            <artifactId>moshi</artifactId>
+            <version>1.12.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

@@ -15,11 +15,11 @@ class RequestHandler(BaseHTTPRequestHandler):
         try:
             content_len = int(self.headers.get('content-length', 0))
             request_json = json.loads(self.rfile.read(content_len))
-            image_raw_data = request_json['image_data']
+            image_raw_data = request_json['imageDataBase64']
             image_data = base64.b64decode(image_raw_data)
             classifier_response = self.classifier.classify(image_data)
             print('Got classifier response: ' + str(classifier_response))
-            response = (200, {'data': classifier_response})
+            response = (200, classifier_response)
         except Exception as e:
             print('Got exception: ' + repr(e))
             response = (500, {'error': repr(e)})
