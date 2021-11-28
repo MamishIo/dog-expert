@@ -10,14 +10,17 @@ public class ReactionEmojis {
 
     private static final String STANDARD_EMOJI_RAGE = "rage";
     private static final String STANDARD_EMOJI_HEART_EYES = "heart_eyes";
-    private static final String STANDARD_EMOJI_SMILE_TEARS = "smiling_face_with_tear";
+    // I would love to have this one, but it's part of a Unicode block that's hard to use
+    //private static final String STANDARD_EMOJI_SMILE_TEARS = "smiling_face_with_tear";
+    private static final String STANDARD_EMOJI_RELIEVED = "relieved";
     private static final String STANDARD_EMOJI_MONOCLE_DOUBT = "face_with_monocle";
     private static final String STANDARD_EMOJI_DOG = "dog";
+
     private static final String CUSTOM_EMOJI_COOLDOG = "cooldog";
 
     private final String tagRage;
     private final String tagHeartEyes;
-    private final String tagSmileTears;
+    private final String tagRelieved;
     private final String tagMonocleDoubt;
     private final String tagDog;
     private final String tagCooldog;
@@ -25,7 +28,7 @@ public class ReactionEmojis {
     public ReactionEmojis(DiscordApi discordApi) {
         tagRage = tagFromName(STANDARD_EMOJI_RAGE);
         tagHeartEyes = tagFromName(STANDARD_EMOJI_HEART_EYES);
-        tagSmileTears = tagFromName(STANDARD_EMOJI_SMILE_TEARS);
+        tagRelieved = tagFromName(STANDARD_EMOJI_RELIEVED);
         tagMonocleDoubt = tagFromName(STANDARD_EMOJI_MONOCLE_DOUBT);
         tagDog = tagFromName(STANDARD_EMOJI_DOG);
 
@@ -40,8 +43,8 @@ public class ReactionEmojis {
         return tagHeartEyes;
     }
 
-    public String getTagSmileTears() {
-        return tagSmileTears;
+    public String getTagRelieved() {
+        return tagRelieved;
     }
 
     public String getTagMonocleDoubt() {

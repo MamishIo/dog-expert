@@ -69,7 +69,7 @@ public class UserResponder {
 
     private UserResponse summaryProbablyBC(ClassifierPrediction bc, ClassifierPrediction next1, ClassifierPrediction next2) {
         return respond(
-                emojis.getTagSmileTears(),
+                emojis.getTagRelieved(),
                 "That's probably a %s, but could also be a %s or a %s. Good enough!",
                 bcPrediction(bc), nonBCPrediction(next1), nonBCPrediction(next2));
     }
