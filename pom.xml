@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.outputTimestamp>2021-06-06T06:06:06Z</project.build.outputTimestamp>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
