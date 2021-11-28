@@ -21,7 +21,6 @@ public class PipelineStack extends Stack {
         super(scope, id, props);
 
         var pipeline = new CodePipeline(this, "Pipeline", CodePipelineProps.builder()
-                .selfMutation(false) // TODO: Re-enable self-mutate once we solve the deploy loop problem
                 .synth(new CodeBuildStep("BuildProject", CodeBuildStepProps.builder()
                         .input(CodePipelineSource.connection(GITHUB_REPO_STRING, GITHUB_BRANCH, ConnectionSourceOptions.builder()
                                 .connectionArn(GITHUB_CONNECTION)
