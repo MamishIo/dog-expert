@@ -34,13 +34,12 @@ public class ServiceStack extends Stack {
                         .build()))
                 .build());
 
-
-
         var fargateCluster = new Cluster(this, "FargateCluster", ClusterProps.builder()
                 .vpc(serviceVpc)
                 .enableFargateCapacityProviders(true)
                 .containerInsights(true)
                 .build());
+
         var task = new FargateTaskDefinition(this, "Task", FargateTaskDefinitionProps.builder()
                 .cpu(CPU_UNITS)
                 .memoryLimitMiB(MEMORY_MB)
@@ -57,6 +56,7 @@ public class ServiceStack extends Stack {
                 .image(ContainerImage.fromAsset("dog-expert-docker"))
                 .logging(logDriver)
                 .build());
+
         var service = new FargateService(this, "Service", FargateServiceProps.builder()
                 .cluster(fargateCluster)
                 .taskDefinition(task)

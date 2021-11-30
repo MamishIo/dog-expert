@@ -9,5 +9,6 @@ public class ServiceStage extends Stage {
         super(scope, id);
 
         new ServiceStack(this, "DogExpertService");
+        new MonitoringStack(this, "Monitoring");
     }
 }
